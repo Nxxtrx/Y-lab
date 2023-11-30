@@ -1,0 +1,13 @@
+.cart-counter{
+  margin-right: 20px;
+}
+
+.cart-counter__text{
+  margin: 0;
+  font-size: 18px;
+}
+
+.cart-counter__count{
+  margin-left: 15px;
+  font-weight: 700;
+}

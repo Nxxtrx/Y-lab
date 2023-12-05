@@ -1,14 +1,18 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import Item from "../item";
+import CartItem from "../cart-item/index";
 import './style.css';
 
-function List({list, onDeleteItem, onSelectItem, onAddItem, isOpened}) {
+function List({list, onDeleteItem, onAddItem}) {
   return (
     <div className='List'>{
       list.map(item =>
         <div key={item.code} className='List-item'>
-          <Item item={item} onDelete={onDeleteItem} onSelect={onSelectItem} onAddItem={onAddItem} isOpened={isOpened} />
+          {item.count ? <CartItem item={item} onDelete={onDeleteItem} />
+          : <Item item={item} onAddItem={onAddItem} />
+          }
+
         </div>
       )}
     </div>

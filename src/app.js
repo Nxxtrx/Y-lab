@@ -16,6 +16,18 @@ function App({store}) {
 
   const list = store.getState().list;
   const shopCart = store.getState().shopCart;
+  const count = store.getCartTotal().count
+  const total = store.getCartTotal().total
+
+
+  React.useEffect(() => {
+    if(isOpened) {
+      document.body.style.overflow = 'hidden';
+
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [isOpened]);
 
   const callbacks = {
     onDeleteItem: useCallback((code) => {
@@ -32,20 +44,15 @@ function App({store}) {
 
     onPopupOpened: useCallback(() => {
       setIsOpened(isOpened => !isOpened)
-    }, [])
+    }, []),
   }
 
   return (
     <PageLayout>
       <Head title='Магазин'/>
-      <Controls onPopupOpened={callbacks.onPopupOpened} shopCart={shopCart}/>
-      <List list={list}
-            onDeleteItem={callbacks.onDeleteItem}
-            onSelectItem={callbacks.onSelectItem}
-            onAddItem={callbacks.onAddItem}
-            isOpened={isOpened}
-            />
-      {isOpened ? <Cart shopCart={shopCart} onPopupOpened={callbacks.onPopupOpened} onDelete={callbacks.onDeleteItem}/> : ''}
+      <Controls onPopupOpened={callbacks.onPopupOpened} count={count} total={total}/>
+      <List list={list} onAddItem={callbacks.onAddItem} />
+      {isOpened ? <Cart onPopupOpened={callbacks.onPopupOpened} title={'Корзина'} shopCart={shopCart} total={total} onDelete={callbacks.onDeleteItem}/> : ''}
     </PageLayout>
   );
 }

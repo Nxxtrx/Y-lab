@@ -7,6 +7,8 @@ class Store {
   constructor(initState = {}) {
     this.state = initState;
     this.listeners = []; // Слушатели изменений состояния
+    this.count = 0;
+    this.total = 0;
   }
 
   /**
@@ -28,6 +30,10 @@ class Store {
    */
   getState() {
     return this.state;
+  }
+
+  getCartTotal() {
+    return {count: this.count, total: this.total}
   }
 
   /**
@@ -56,7 +62,19 @@ class Store {
             : [...this.state.shopCart, {code: itemToAdd.code, title: itemToAdd.title, price: itemToAdd.price, count: 1}]
         })
       }
+    this.count = this.setCountCart()
+    this.total = this.setTotalCart()
   };
+
+  setCountCart() {
+    return this.state.shopCart.length
+  }
+
+  setTotalCart() {
+    return this.state.shopCart.reduce((acc, curr) => {
+      return acc + curr.price * curr.count;
+    }, 0);
+  }
 
   /**
    * Удаление записи по коду
@@ -68,6 +86,8 @@ class Store {
       // Новый список, в котором не будет удаляемой записи
       shopCart: this.state.shopCart.filter(item => item.code !== code)
     })
+    this.count = this.setCountCart()
+    this.total = this.setTotalCart()
   };
 
   /**

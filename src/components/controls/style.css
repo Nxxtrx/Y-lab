@@ -1,10 +1,9 @@
 .Controls {
   display: flex;
   justify-content: flex-end;
-  padding: 20px;
+  padding: 20px 20px 21px 20px;
 }
 
 .Controls__btn {
-  padding-left: 9px;
-  padding-right: 9px;
+  width: 80px;
 }

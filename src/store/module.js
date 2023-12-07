@@ -23,7 +23,6 @@ class StoreModule {
       [this.name]: newState
     }, description)
   }
-
 }
 
 export default StoreModule;

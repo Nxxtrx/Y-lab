@@ -11,8 +11,11 @@
 }
 
 .ItemBasket-title {
-  width: 100%;
   padding: 20px 10px;
+  text-decoration: none;
+  color: #000;
+  cursor: pointer;
+  margin-right: auto;
 }
 
 .ItemBasket-right {

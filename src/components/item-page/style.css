@@ -1,0 +1,29 @@
+.product{
+  text-align: justify;
+  margin: 0 40px;
+  padding-top: 3px;
+}
+
+.product__description{
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+
+.product__description_type_bold{
+  font-weight: 700;
+}
+
+.product__price{
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.product__total{
+  margin-left: 10px;
+}

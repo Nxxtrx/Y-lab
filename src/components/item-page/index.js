@@ -18,6 +18,7 @@ function ItemPage({onAdd, setCurrentProduct}) {
 
   useEffect(() => {
     if(productId) {
+      setCurrentProduct('')
       store.actions.catalog.loadItemToId(productId)
       .then(item => {
         setProduct({... item, madeIn: item.madeIn.title, madeInCode: item.madeIn.code, category: item.category.title});

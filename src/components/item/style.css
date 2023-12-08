@@ -41,3 +41,7 @@
   white-space: nowrap;
   font-size: 18px;
 }
+
+.Item-btn {
+  min-width: 75px;
+}

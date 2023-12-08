@@ -49,7 +49,7 @@ function Main() {
 
   return (
     <PageLayout>
-      <Head title={`${location.pathname== '/' ? 'Магазин' : currentProduct}`}/>
+      <Head title={`${location.pathname== '/' ? 'title' : currentProduct}`}/>
       <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount}
                   sum={select.sum}/>
       <Routes>

@@ -46,7 +46,7 @@ function Pagination({itemPerPage, totalItem, paginate, currentPage}) {
         </li>
       ))}
 
-      {currentPage <= 52 && <li className="pagination__ellipsis">...</li>}
+      {currentPage <= pageNumber.length - 3 && <li className="pagination__ellipsis">...</li>}
 
       <li className="pagination__item" key={pageNumber.length}>
         <button

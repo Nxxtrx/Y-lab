@@ -6,21 +6,42 @@ import './style.css'
 function Pagination({itemPerPage, totalItem, paginate, currentPage}) {
   const pageNumber = []
 
-  const [neighborPages, setNeighborPages] = React.useState([2, 3, 4])
+  const [neighborPages, setNeighborPages] = React.useState([2, 3])
 
   for(let i = 1; i <= Math.ceil(totalItem / itemPerPage); i ++) {
     pageNumber.push(i)
   }
 
+  const lastPage = pageNumber.length
+
   useEffect(() => {
-    if(currentPage >= 4 && currentPage <= 52) {
-      setNeighborPages(pageNumber.slice(currentPage - 2, currentPage + 1))
-    } else if (currentPage < 4) {
-      setNeighborPages([2, 3, 4])
-    } else if (currentPage >= 53){
-      setNeighborPages([52, 53, 54])
+    switch (true) {
+      case (currentPage >= 4 && currentPage <= lastPage - 3 && lastPage >= 8):
+        setNeighborPages(pageNumber.slice(currentPage - 2, currentPage + 1));
+        break;
+
+      case (currentPage < 3 && lastPage >= 8):
+        setNeighborPages(pageNumber.slice(1, 3));
+        break;
+
+      case (currentPage === 3 && lastPage >= 8):
+        setNeighborPages(pageNumber.slice(1, 4));
+        break;
+
+      case (currentPage === lastPage - 2 && lastPage >= 8):
+        setNeighborPages(pageNumber.slice(lastPage - 4, lastPage - 1));
+        break;
+
+      case (currentPage > lastPage - 2 && lastPage >= 8):
+        setNeighborPages(pageNumber.slice(lastPage - 3, lastPage - 1));
+        break;
+
+      case (lastPage < 8):
+        setNeighborPages(pageNumber.slice(1, lastPage-1))
+      default:
+        break;
     }
-  }, [currentPage])
+  }, [currentPage, lastPage])
 
   return (
     <ul className="pagination">
@@ -33,7 +54,7 @@ function Pagination({itemPerPage, totalItem, paginate, currentPage}) {
         </button>
       </li>
 
-      {currentPage >= 4 && <li className="pagination__ellipsis">...</li>}
+      {currentPage >= 4 && lastPage >= 8 && <li className="pagination__ellipsis">...</li>}
 
       {neighborPages.map((item, index) => (
         <li className="pagination__item" key={index + 1}>
@@ -46,7 +67,7 @@ function Pagination({itemPerPage, totalItem, paginate, currentPage}) {
         </li>
       ))}
 
-      {currentPage <= pageNumber.length - 3 && <li className="pagination__ellipsis">...</li>}
+      {currentPage <= lastPage - 3 && lastPage >= 8 && <li className="pagination__ellipsis">...</li>}
 
       <li className="pagination__item" key={pageNumber.length}>
         <button

@@ -37,11 +37,13 @@ body:has(.ModalLayout) {
   display: flex;
   /*align-items: stretch;*/
   justify-content: space-between;
-  padding: 0 30px 0 20px;
+  padding: 0 32px 0 20px;
 }
 
 .ModalLayout-close {
   align-self: center;
+  cursor: pointer;
+  width: 76px;
 }
 
 .ModalLayout-title {
@@ -51,5 +53,5 @@ body:has(.ModalLayout) {
 
 .ModalLayout-content {
   min-height: 100px;
-  padding: 70px 0;
+  padding: 62px 0;
 }

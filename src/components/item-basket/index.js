@@ -24,7 +24,7 @@ function ItemBasket(props) {
         <div className={cn('cell')}>{numberFormat(props.item.price)} ₽</div>
         <div className={cn('cell')}>{numberFormat(props.item.amount || 0)} шт</div>
         <div className={cn('cell')}>
-          <button onClick={callbacks.onRemove}><Translate text="del" /></button>
+          <button className={cn('btn')} onClick={callbacks.onRemove}><Translate text="del" /></button>
         </div>
       </div>
     </div>

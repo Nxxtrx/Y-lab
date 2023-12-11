@@ -4,13 +4,14 @@ import {cn as bem} from '@bem-react/classname';
 import {numberFormat, plural} from "../../utils";
 import Translate from "../translations";
 import './style.css';
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function BasketTool({sum, amount, onOpen}) {
   const cn = bem('BasketTool');
+  const location = useLocation();
+
   return (
     <div className={cn()}>
-      <Link to={'/'} className={cn('link')}><Translate text='main'/></Link>
       <span className={cn('label')}><Translate text='inCart'/>:</span>
       <span className={cn('total')}>
         {amount
@@ -20,7 +21,7 @@ function BasketTool({sum, amount, onOpen}) {
           : <Translate text="empty" />
         }
       </span>
-      <button onClick={onOpen}><Translate text='move'/></button>
+      <button className={cn('btn', `${location.pathname === '/' ? '' : 'BasketTool-btn_type_cart'}`)} onClick={onOpen}><Translate text='move'/></button>
     </div>
   );
 }

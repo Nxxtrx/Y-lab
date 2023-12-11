@@ -15,6 +15,10 @@
   margin-right: 20px;
 }
 
+.Head__btn{
+  cursor: pointer;
+}
+
 .Head__btn:last-child{
   margin-left: 10px;
 }

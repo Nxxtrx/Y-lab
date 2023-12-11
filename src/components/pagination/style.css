@@ -2,8 +2,8 @@
   list-style: none;
   display: flex;
   justify-content: flex-end;
-  margin-right: 21px;
-  margin-top: 22px;
+  margin-right: 18px;
+  margin-top: 23px;
 }
 
 .pagination__btn{
@@ -15,8 +15,8 @@
 
 .pagination__ellipsis{
   color: #CCCCCC;
-  margin-left: 1px;
-  margin-right: 1px;
+  margin-left: 2px;
+  margin-right: 2px;
 }
 
 .pagination__btn:hover{

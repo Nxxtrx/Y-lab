@@ -2,24 +2,22 @@ import React, {memo, useCallback, useEffect} from 'react';
 import Item from "../../components/item";
 import PageLayout from "../../components/page-layout";
 import Head from "../../components/head";
-import BasketTool from "../../components/basket-tool";
 import List from "../../components/list";
 import useStore from "../../store/use-store";
 import useSelector from "../../store/use-selector";
 import Pagination from '../../components/pagination';
-import { Route, Routes, useLocation } from 'react-router';
-import ItemPage from '../../components/item-page/index.js';
+import MenuLayout from '../../components/menu-layout/index.js';
+import Preloader from '../../components/preloader/index.js';
 
 function Main() {
 
   const itemPerPage = 10;
 
   const [currentPage, setCurrentPage] = React.useState(1)
-  const [currentProduct, setCurrentProduct] = React.useState('')
+  const [isLoading, setIsLoading] = React.useState(false)
+
 
   const store = useStore();
-
-  const location = useLocation()
 
   const select = useSelector(state => ({
     list: state.catalog.list,
@@ -29,7 +27,8 @@ function Main() {
   }));
 
   useEffect(() => {
-    store.actions.catalog.load(10, currentPage);
+    setIsLoading(true)
+    store.actions.catalog.load(10, currentPage).finally(() => setIsLoading(false))
   }, [currentPage]);
 
   const callbacks = {
@@ -49,14 +48,11 @@ function Main() {
 
   return (
     <PageLayout>
-      <Head title={`${location.pathname== '/' ? 'title' : currentProduct}`}/>
-      <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount}
+      <Head title={'title'}/>
+      <MenuLayout onOpen={callbacks.openModalBasket} amount={select.amount}
                   sum={select.sum}/>
-      <Routes>
-        <Route path='/' element={<List list={select.list} renderItem={renders.item}/>}/>
-        <Route path='/item/:itemId' element={<ItemPage onAdd={callbacks.addToBasket} setCurrentProduct={setCurrentProduct}/>}/>
-      </Routes>
-      {location.pathname === '/' && <Pagination itemPerPage={itemPerPage} totalItem={select.count} paginate={paginate} currentPage={currentPage}/>}
+      {isLoading ? <Preloader/> : <List list={select.list} renderItem={renders.item}/>}
+      <Pagination itemPerPage={itemPerPage} totalItem={select.count} paginate={paginate} currentPage={currentPage}/>
     </PageLayout>
 
   );

@@ -37,10 +37,10 @@ export function numberFormat(value, locale = 'ru-RU', options = {}) {
 export const translations = {
   en: {
     title: 'Store',
-    move: 'move on',
+    move: 'Move on',
     add: 'add',
-    del: 'delete',
-    close: 'close',
+    del: 'Delete',
+    close: 'Close',
     inCart: 'In the basket',
     cart: 'Cart',
     product: 'product',
@@ -53,10 +53,10 @@ export const translations = {
   },
   ru: {
     title: 'Магазин',
-    move: 'перейти',
+    move: 'Перейти',
     add: 'Добавить',
-    del: 'удалить',
-    close: 'закрыть',
+    del: 'Удалить',
+    close: 'Закрыть',
     inCart: 'В корзине',
     cart: 'Корзина',
     product: 'товар',

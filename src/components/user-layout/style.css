@@ -1,0 +1,13 @@
+.user-layout {
+  display: flex;
+  justify-content: end;
+  margin-right: 20px;
+  gap: 20px;
+  height: 41px;
+  align-items: center;
+}
+
+.user-layout__btn{
+  width: 59px;
+  height: 21px;
+}

@@ -10,10 +10,8 @@ import CatalogList from "../../containers/catalog-list";
 import LocaleSelect from "../../containers/locale-select";
 import UserLayout from '../../components/user-layout';
 import useSelector from '../../hooks/use-selector';
+import UserInfo from '../../components/user-info';
 
-/**
- * Главная страница - первичная загрузка каталога
- */
 function Main() {
 
   const store = useStore();
@@ -21,7 +19,6 @@ function Main() {
   const[isAuth, setIsAuth] = useState(false)
 
   useInit(() => {
-    store.actions.catalog.initParams();
     store.actions.auth.tokenCheck()
   }, [], true);
 
@@ -33,8 +30,6 @@ function Main() {
     }
   })
 
-  console.log(isAuth)
-
   const select = useSelector(state => ({
     user: state.auth.data
   }))
@@ -42,6 +37,7 @@ function Main() {
   const callbacks = {
     signOut: useCallback(() => store.actions.auth.signOut())
   }
+
 
   const {t} = useTranslate();
 
@@ -52,8 +48,7 @@ function Main() {
         <LocaleSelect/>
       </Head>
       <Navigation/>
-      <CatalogFilter/>
-      <CatalogList/>
+      <UserInfo user={select.user}/>
     </PageLayout>
   );
 }

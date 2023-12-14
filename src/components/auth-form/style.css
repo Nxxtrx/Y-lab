@@ -1,0 +1,30 @@
+.auth-form{
+  margin-left: 20px;
+}
+
+.auth-form__form {
+  display: flex;
+  flex-direction: column;
+}
+
+.auth-form__title{
+  margin-bottom: 17px;
+  margin-top: 42px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.auth-form__input{
+  width: 203px;
+  height: 26px;
+}
+
+.auth-form__label:first-child{
+  margin-bottom: 17px;
+}
+
+.auth-form__btn{
+  margin-top: 19px;
+  width: 53px;
+  height: 21px;
+}

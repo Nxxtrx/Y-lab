@@ -1,0 +1,12 @@
+.user-info{
+  margin-left: 20px;
+}
+
+.user-info__title {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.user-info__data {
+  font-weight: 700;
+}

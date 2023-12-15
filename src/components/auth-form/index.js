@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, memo } from 'react'
 import './style.css'
-import useStore from '../../hooks/use-store';
+import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
-export default function AuthForm(props) {
+function AuthForm(props) {
 
   const navigate = useNavigate()
 
@@ -16,7 +16,7 @@ export default function AuthForm(props) {
     if(!props.error && props.data.userName) {
       navigate('/')
     }
-  }, [props.error, props.data])
+  }, [props.error, props.data, onSubmit])
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -36,15 +36,28 @@ export default function AuthForm(props) {
     <div className="auth-form">
       <p className='auth-form__title'>{props.title}</p>
       <form className='auth-form__form' onSubmit={onSubmit}>
-        <label className='auth-form__label'>Логин<br />
+        <label className='auth-form__label'>{props.t('auth.login')}<br />
           <input className='auth-form__input' type='text' name='login' value={formData.login} onChange={handleChange}/>
         </label>
-        <label  className='auth-form__label'>Пароль<br />
+        <label  className='auth-form__label'>{props.t('auth.password')}<br />
           <input  className='auth-form__input' type='password' name='password' value={formData.password} onChange={handleChange}/>
         </label>
-        <span>{props.error}</span>
-        <button type='submit' className='auth-form__btn'>Войти</button>
+        <span className='auth-form__error'>{props.error}</span>
+        <button type='submit' className='auth-form__btn'>{props.t('auth.submit')}</button>
       </form>
     </div>
   );
 }
+
+AuthForm.propTypes = {
+  title: PropTypes.string,
+  error: PropTypes.string,
+  t: PropTypes.func
+}
+
+AuthForm.defaultProps = {
+  t: (text) => text
+}
+
+
+export default memo(AuthForm)

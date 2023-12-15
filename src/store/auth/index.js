@@ -14,7 +14,6 @@ class AuthState extends StoreModule {
       waiting: true
     });
 
-
     try {
       const response = await fetch('/api/v1/users/sign', {
         method: "POST",
@@ -30,7 +29,6 @@ class AuthState extends StoreModule {
       }
       const json = await response.json()
       const token = json.result.token
-      console.log(token)
       localStorage.setItem('token', token)
       this.setState({
         data: {
@@ -43,49 +41,84 @@ class AuthState extends StoreModule {
 
     } catch (error) {
       this.setState({
-        data: error,
+        data: {...this.data, error: error.message},
         waiting: false
       })
     }
   }
 
   async tokenCheck() {
-    const response = await fetch('/api/v1/users/self?fields=*', {
-      method: "GET",
-      headers: {
-        "X-token": localStorage.getItem('token'),
-        'Content-Type': 'application/json'
-      }
-    })
-    const json = await response.json()
-    if(json.result) {
-      this.setState({
-        data: {
-          userName: json.result.profile.name,
-          phone: json.result.profile.phone,
-          email: json.result.email
+    this.setState({
+      data: {...this.data},
+      waiting: true
+    });
+
+    try {
+      const response = await fetch('/api/v1/users/self?fields=*', {
+        method: "GET",
+        headers: {
+          "X-token": localStorage.getItem('token'),
+          'Content-Type': 'application/json'
         }
       })
-    } else {
+      const json = await response.json()
+
+      if(!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error.message)
+      } else {
+        this.setState({
+          data: {
+            userName: json.result.profile.name,
+            phone: json.result.profile.phone,
+            email: json.result.email
+          },
+          waiting: true
+        })
+      }
+    } catch (error) {
       this.setState({
-        data: {}
+        data: {},
+        waiting: false
       })
     }
+
   }
 
   async signOut() {
-    const response = await fetch('/api/v1/users/sign', {
-      method: "DELETE",
-      headers: {
-        'X-token': localStorage.getItem('token'),
-        'Content-Type': 'application/json'
+    this.setState(({
+      data: {...this.data},
+      waiting: true
+    }))
+
+    try {
+      const response = await fetch('/api/v1/users/sign', {
+        method: "DELETE",
+        headers: {
+          'X-token': localStorage.getItem('token'),
+          'Content-Type': 'application/json'
+        }
+      })
+      const json = await response.json()
+      if(!response.ok) {
+        this.setState({
+          data: {...this.data},
+          waiting: false
+        })
+        const error = await response.json()
+        throw new Error(error.error.message)
+      } else {
+        localStorage.removeItem('token')
+        this.setState({
+          data: {}
+        })
       }
-    })
-    const json = await response.json()
-    localStorage.removeItem('token')
-    this.setState({
-      data: {}
-    })
+    } catch (error) {
+      this.setState({
+        data: {...this.data, error: error.message},
+        waiting: false
+      })
+    }
   }
 }
 

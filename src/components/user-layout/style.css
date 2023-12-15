@@ -8,6 +8,12 @@
 }
 
 .user-layout__btn{
-  width: 59px;
+  min-width: 59px;
   height: 21px;
+}
+
+.user-layout__name{
+  font-size: 13px;
+  font-weight: 400;
+  color: #0087E9;
 }

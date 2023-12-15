@@ -22,32 +22,34 @@ function Main() {
 
   useInit(() => {
     store.actions.catalog.initParams();
-    store.actions.auth.tokenCheck()
+    if(localStorage.getItem('token')){
+      store.actions.auth.tokenCheck()
+    }
   }, [], true);
 
-  useEffect(() => {
-    if(localStorage.getItem('token')){
-      setIsAuth(true)
-    } else {
-      setIsAuth(false)
-    }
-  })
-
-  console.log(isAuth)
 
   const select = useSelector(state => ({
     user: state.auth.data
   }))
 
+
   const callbacks = {
     signOut: useCallback(() => store.actions.auth.signOut())
   }
+
+  useEffect(() => {
+    if(localStorage.getItem('token') && !select.user.error){
+      setIsAuth(true)
+    } else {
+      setIsAuth(false)
+    }
+  }, [store, callbacks.signOut])
 
   const {t} = useTranslate();
 
   return (
     <PageLayout>
-      <UserLayout isAuth={isAuth} userName={select.user.userName} signOut={callbacks.signOut}/>
+      <UserLayout isAuth={isAuth} userName={select.user.userName} signOut={callbacks.signOut} t={t}/>
       <Head title={t('title')}>
         <LocaleSelect/>
       </Head>

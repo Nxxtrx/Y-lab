@@ -17,6 +17,8 @@
 .auth-form__input{
   width: 203px;
   height: 26px;
+  font-size: 16px;
+  color: #000;
 }
 
 .auth-form__label:first-child{
@@ -27,4 +29,9 @@
   margin-top: 19px;
   width: 53px;
   height: 21px;
+}
+
+.auth-form__error{
+  margin-top: 20px;
+  color: #FF0000;
 }

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, memo, useState, useEffect } from 'react'
 import useTranslate from "../../hooks/use-translate";
 import Navigation from "../../containers/navigation";
 import PageLayout from "../../components/page-layout";
@@ -9,13 +9,14 @@ import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
 import UserLayout from '../../components/user-layout';
 
-export default function Authorization() {
+function Authorization() {
 
   const store = useStore()
 
   const select = useSelector(state => ({
     data: state.auth.data
   }))
+
 
   const callbacks = {
     onSignIn: useCallback((login, password) => store.actions.auth.signIn(login, password))
@@ -24,12 +25,14 @@ export default function Authorization() {
   const {t} = useTranslate();
   return (
     <PageLayout>
-      <UserLayout />
+      <UserLayout t={t}/>
       <Head title={t('title')}>
         <LocaleSelect/>
       </Head>
       <Navigation/>
-      <AuthForm title='Вход' onSignIn={callbacks.onSignIn} data={select.data} error={select.data.message}/>
+      <AuthForm title={t('auth.title')} onSignIn={callbacks.onSignIn} data={select.data} error={select.data.error} t={t}/>
     </PageLayout>
   );
 }
+
+export default memo(Authorization)

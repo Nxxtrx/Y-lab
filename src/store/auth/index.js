@@ -4,14 +4,17 @@ class AuthState extends StoreModule {
   initState() {
     return {
       data: {},
-      waiting: false
+      waiting: false,
+      access: false,
+      isLoading: true
     }
   }
 
   async signIn(login, password) {
     this.setState({
       data: {...this.data},
-      waiting: true
+      waiting: true,
+      access: false
     });
 
     try {
@@ -25,34 +28,37 @@ class AuthState extends StoreModule {
 
       if(!response.ok) {
         const error = await response.json()
-        throw new Error(error.error.message)
+        console.log(error.error.data.issues)
+        throw new Error(error.error.data.issues[0].message)
       }
       const json = await response.json()
       const token = json.result.token
       localStorage.setItem('token', token)
       this.setState({
         data: {
+          id: json.result.user._id,
           userName: json.result.user.profile.name,
-          phone: json.result.user.profile.phone,
-          email: json.result.user.email
         },
-        waiting: false
+        waiting: true,
+        access: true
       })
 
     } catch (error) {
       this.setState({
         data: {...this.data, error: error.message},
-        waiting: false
+        waiting: false,
+        access: false,
       })
     }
   }
 
   async tokenCheck() {
     this.setState({
-      data: {...this.data},
-      waiting: true
-    });
-
+      data: {},
+      waiting: true,
+      access: false,
+      isLoading: true,
+    })
     try {
       const response = await fetch('/api/v1/users/self?fields=*', {
         method: "GET",
@@ -69,17 +75,19 @@ class AuthState extends StoreModule {
       } else {
         this.setState({
           data: {
+            id: json.result._id,
             userName: json.result.profile.name,
-            phone: json.result.profile.phone,
-            email: json.result.email
           },
-          waiting: true
+          waiting: false,
+          isLoading: false,
+          access: true,
         })
       }
     } catch (error) {
       this.setState({
         data: {},
-        waiting: false
+        waiting: false,
+        access: false
       })
     }
 
@@ -110,7 +118,9 @@ class AuthState extends StoreModule {
       } else {
         localStorage.removeItem('token')
         this.setState({
-          data: {}
+          data: {},
+          waiting: false,
+          access: false,
         })
       }
     } catch (error) {

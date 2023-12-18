@@ -1,22 +1,13 @@
-import React, { useEffect, useState, memo } from 'react'
+import React, { useState, memo } from 'react'
 import './style.css'
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
 
 function AuthForm(props) {
-
-  const navigate = useNavigate()
 
   const [formData, setFormData] = useState({
     login: '',
     password: ''
   })
-
-  useEffect(() => {
-    if(!props.error && props.data.userName) {
-      navigate('/')
-    }
-  }, [props.error, props.data, onSubmit])
 
   const onSubmit = (e) => {
     e.preventDefault()

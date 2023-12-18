@@ -9,46 +9,41 @@ import LocaleSelect from "../../containers/locale-select";
 import UserLayout from '../../components/user-layout';
 import useSelector from '../../hooks/use-selector';
 import UserInfo from '../../components/user-info';
+import Spinner from '../../components/spinner';
 
-function Main() {
+function User() {
 
   const store = useStore();
 
-  const[isAuth, setIsAuth] = useState(false)
+  const select = useSelector(state => ({
+    data: state.auth.data,
+    user: state.user.user,
+    access: state.auth.access,
+    waiting: state.user.waiting
+  }))
 
   useInit(() => {
-    store.actions.auth.tokenCheck()
-  }, [], true);
-
-  useEffect(() => {
-    if(localStorage.getItem('token')){
-      setIsAuth(true)
-    } else {
-      setIsAuth(false)
-    }
-  })
-
-  const select = useSelector(state => ({
-    user: state.auth.data
-  }))
+    store.actions.user.load(select.data.id);
+  }, [select.data.id]);
 
   const callbacks = {
     signOut: useCallback(() => store.actions.auth.signOut())
   }
 
-
   const {t} = useTranslate();
 
   return (
     <PageLayout>
-      <UserLayout isAuth={isAuth} userName={select.user.userName} signOut={callbacks.signOut} t={t}/>
+      <UserLayout isAuth={select.access} userName={select.data.userName} signOut={callbacks.signOut} t={t}/>
       <Head title={t('title')}>
         <LocaleSelect/>
       </Head>
       <Navigation/>
-      <UserInfo user={select.user} t={t}/>
+      <Spinner active={select.waiting}>
+        <UserInfo user={select.user} t={t}/>
+      </Spinner>
     </PageLayout>
   );
 }
 
-export default memo(Main);
+export default memo(User);

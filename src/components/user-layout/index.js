@@ -11,11 +11,10 @@ function UserLayout({userName, isAuth, signOut, t}) {
     navigate('/')
   }
 
-  console.log(isAuth)
 
   return (
     <div className='user-layout'>
-      {userName ? <Link to={isAuth ? `/profile` : '/login'} className='user-layout__name'>{userName}</Link> : '' }
+      {userName && <Link to={isAuth ? `/profile` : '/login'} className='user-layout__name'>{userName}</Link> }
       {isAuth
         ? <button className='user-layout__btn' onClick={() => onSignOut()}>{t('auth.signOut')}</button>
         : <button className='user-layout__btn' onClick={() => navigate('/login')}>{t('auth.signIn')}</button>

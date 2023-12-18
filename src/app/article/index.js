@@ -25,14 +25,12 @@ function Article() {
     store.actions.article.load(params.id);
   }, [params.id]);
 
-  const[isAuth, setIsAuth] = useState(false)
-
-
 
   const select = useSelector(state => ({
     article: state.article.data,
     waiting: state.article.waiting,
-    user: state.auth.data
+    user: state.auth.data,
+    access: state.auth.access
   }));
 
   const {t} = useTranslate();
@@ -43,17 +41,9 @@ function Article() {
     signOut: useCallback(() => store.actions.auth.signOut())
   }
 
-  useEffect(() => {
-    if(localStorage.getItem('token') && !select.user.error){
-      setIsAuth(true)
-    } else {
-      setIsAuth(false)
-    }
-  }, [store, callbacks.signOut])
-
   return (
     <PageLayout>
-      <UserLayout isAuth={isAuth} userName={select.user.userName} signOut={callbacks.signOut} t={t}/>
+      <UserLayout isAuth={select.access} userName={select.user.userName} signOut={callbacks.signOut} t={t}/>
       <Head title={select.article.title}>
         <LocaleSelect/>
       </Head>

@@ -6,6 +6,7 @@ import Select from "../../components/select";
 import Input from "../../components/input";
 import SideLayout from "../../components/side-layout";
 import useInit from "../../hooks/use-init";
+import { sortByParent } from "../../utils";
 
 /**
  * Контейнер со всеми фильтрами каталога
@@ -55,15 +56,7 @@ function CatalogFilter() {
 
   const {t} = useTranslate();
 
-  function sortByParent(arr, parent = null, result = [], level = 0) {
-    const children = arr.filter(item => (item.parent && item.parent._id === parent) || (item.parent === null && parent === null));
-    for (const child of children) {
-      child.title = '-'.repeat(level) + ' ' + child.title;
-      result.push(child);
-      sortByParent(arr, child._id, result, level + 1);
-    }
-    return result;
-  }
+
 
   return (
     <SideLayout padding='medium'>

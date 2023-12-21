@@ -1,25 +1,32 @@
 // Начальное состояние
 export const initialState = {
   data: {},
-  waiting: null, // признак ожидания загрузки,
-  loading: false
+  waiting: false // признак ожидания загрузки
 }
+
 
 // Обработчик действий
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case "article/load-start":
+    case "comments/load-start":
       return {...state, data: {}, waiting: true};
 
-    case "article/load-success":
-      return {...state, data: action.payload.data, waiting: false, loading: true};
+    case "comments/load-success":
+      return {...state, data: action.payload.data, waiting: false};
 
-    case "article/load-error":
+    case "comments/load-error":
       return {...state, data: {}, waiting: false}; //@todo текст ошибки сохранять?
+
+    case "comments/post-start":
+      return {...state, waiting: true};
+
+    case "comments/post-end":
+      return {...state, waiting: false};
 
     default:
       // Нет изменений
       return state;
+
   }
 }
 

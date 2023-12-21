@@ -1,0 +1,19 @@
+.check-auth{
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.check-auth__link{
+  color: #0087E9;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.check-auth__btn {
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+  color: #666;
+  font-size: 16px;
+  text-decoration: underline;
+}

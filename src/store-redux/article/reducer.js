@@ -1,7 +1,7 @@
 // Начальное состояние
 export const initialState = {
   data: {},
-  waiting: null, // признак ожидания загрузки,
+  waiting: false, // признак ожидания загрузки,
   loading: false
 }
 

@@ -44,3 +44,7 @@
   font-weight: 400;
   margin: 10px 0;
 }
+
+.comments__user_type_active{
+  color: #666;
+}

@@ -10,7 +10,8 @@ function reducer(state = initialState, action) {
   switch (action.type) {
     case "comments/load-start":
       return {...state, data: {}, waiting: true};
-
+    case "comments/load-change":
+        return {...state, data: {...state.data}, waiting: true};
     case "comments/load-success":
       return {...state, data: action.payload.data, waiting: false};
 

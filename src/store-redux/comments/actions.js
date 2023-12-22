@@ -5,19 +5,21 @@ export default {
    * @param id
    * @return {Function}
    */
-  load: (id) => {
+  load: (id, changePage) => {
     return async (dispatch, getState, services) => {
-      // Сброс текущего товара и установка признака ожидания загрузки
-      dispatch({type: 'comments/load-start'});
+
+      if(changePage) {
+        dispatch({type: 'comments/load-start'});
+      } else {
+        dispatch({type: 'comments/load-change'})
+      }
       try {
         const res = await services.api.request({
           url: `api/v1/comments?fields=items(_id,text,dateCreate,author(profile(name)),parent(_id,_type),isDeleted),count&limit=*&search[parent]=${id}`
         });
-        // Товар загружен успешно
         dispatch({type: 'comments/load-success', payload: {data: res.data.result}});
 
       } catch (e) {
-        //Ошибка загрузки
         dispatch({type: 'comments/load-error'});
       }
     }
@@ -25,7 +27,6 @@ export default {
 
   postComments: (idArticle, idComments, text) => {
     return async (dispatch, getState, services) => {
-      // Сброс текущего товара и установка признака ожидания загрузки
       dispatch({type: 'comments/post-start'});
       try {
         const res = await services.api.request({
@@ -38,7 +39,6 @@ export default {
         })
         dispatch({type: 'comments/post-end', payload: {data: res.data.result}});
       } catch (e) {
-        //Ошибка загрузки
         dispatch({type: 'comments/post-end'});
       }
     }

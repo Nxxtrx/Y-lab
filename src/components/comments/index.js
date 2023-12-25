@@ -6,30 +6,33 @@ import CheckAuth from '../check-auth'
 import { dateСonversion } from '../../utils/date-transformation'
 
 
-function Comments({ comments, isOpen, openForm, closeForm, handleSubmit, token, user}) {
+function Comments({ comments, isOpen, openForm, closeForm, handleSubmit, token, user, current, scrollToFromRef, onSignIn}) {
 
   const {id, author, text, level, date} = comments
 
   return (
-    <li className="comments__item" key={id} style={{ marginLeft: `${level * 20}px` }} >
+    <>
+    <li className="comments__item" key={id} style={ level < 6 ? { marginLeft: `${level * 30}px` } : {marginLeft: `${6 * 30}px` }} >
       <p className={`comments__user ${user._id === author._id && 'comments__user_type_active'}`}>
         {author.profile.name}
         <span className="comments__time">{dateСonversion(date)}</span>
       </p>
       <p className="comments__text">{text}</p>
-      <button onClick={isOpen ? closeForm : openForm} className="comments__btn">Ответить</button>
-      {token
-        ? isOpen && (
-            <CommentsForm
-              title={"Новый ответ"}
-              closeForm={closeForm}
-              handleSubmit={handleSubmit}
-              idComments={id}
-              level={level}
-            />
-          )
-        : isOpen && <CheckAuth comment={true} closeForm={closeForm} />}
+      <button onClick={openForm} className="comments__btn">Ответить</button>
     </li>
+    {token
+      ? isOpen && (
+          <CommentsForm
+            title={"Новый ответ"}
+            closeForm={closeForm}
+            handleSubmit={handleSubmit}
+            idComments={current.id}
+            level={current.level}
+            scrollToFromRef={scrollToFromRef}
+          />
+        )
+      : isOpen && <CheckAuth comment={true} closeForm={closeForm} scrollToFromRef={scrollToFromRef} level={current.level} onSignIn={onSignIn}/>}
+    </>
   );
 }
 

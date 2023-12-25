@@ -25,7 +25,7 @@ export default {
     }
   },
 
-  postComments: (idArticle, idComments, text) => {
+  postComments: (idArticle, idComments, text, name) => {
     return async (dispatch, getState, services) => {
       dispatch({type: 'comments/post-start'});
       try {
@@ -37,9 +37,9 @@ export default {
             parent: {_id: idArticle || idComments, _type: idArticle ? 'article' : 'comment'}
           })
         })
-        dispatch({type: 'comments/post-end', payload: {data: res.data.result}});
+        dispatch({type: 'comments/post-end', payload: {data: res.data.result, userName: name}});
       } catch (e) {
-        dispatch({type: 'comments/post-end'});
+        dispatch({type: 'comments/load-error'});
       }
     }
   }

@@ -43,6 +43,7 @@
   font-size: 14px;
   font-weight: 400;
   margin: 10px 0;
+  word-break: break-all;
 }
 
 .comments__user_type_active{

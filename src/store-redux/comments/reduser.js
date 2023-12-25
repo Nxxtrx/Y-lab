@@ -4,7 +4,6 @@ export const initialState = {
   waiting: false // признак ожидания загрузки
 }
 
-
 // Обработчик действий
 function reducer(state = initialState, action) {
   switch (action.type) {
@@ -22,7 +21,13 @@ function reducer(state = initialState, action) {
       return {...state, waiting: true};
 
     case "comments/post-end":
-      return {...state, waiting: false};
+      return {...state,
+        data: {
+          ...state.data,
+          items: [...state.data.items, {...action.payload.data, author: {...action.payload.data.author, profile: {name: action.payload.userName}}}],
+          count: state.data.count + 1},
+        waiting: false
+      };
 
     default:
       // Нет изменений
